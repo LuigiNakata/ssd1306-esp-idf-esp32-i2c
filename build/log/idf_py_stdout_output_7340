@@ -1,0 +1,18 @@
+[1/10] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\luigi\Downloads\ssd1306-esp-idf-esp32-i2c\build\bootloader\esp-idf\esptool_py && C:\Users\luigi\.espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Users/luigi/esp/v5.4.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x1000 C:/Users/luigi/Downloads/ssd1306-esp-idf-esp32-i2c/build/bootloader/bootloader.bin"
+Bootloader binary size 0x6580 bytes. 0xa80 bytes (9%) free.
+[2/10] No install step for 'bootloader'
+[3/10] Completed 'bootloader'
+[4/10] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+[5/10] Linking C static library esp-idf\main\libmain.a
+[6/10] Generating ld/sections.ld
+[7/10] Building C object CMakeFiles/ssd1306_esp32.elf.dir/project_elf_src_esp32.c.obj
+[8/10] Linking CXX executable ssd1306_esp32.elf
+[9/10] Generating binary image from built executable
+esptool.py v4.8.1
+Creating esp32 image...
+Merged 2 ELF sections
+Successfully created esp32 image.
+Generated C:/Users/luigi/Downloads/ssd1306-esp-idf-esp32-i2c/build/ssd1306_esp32.bin
+[10/10] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\luigi\Downloads\ssd1306-esp-idf-esp32-i2c\build\esp-idf\esptool_py && C:\Users\luigi\.espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe C:/Users/luigi/esp/v5.4.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/luigi/Downloads/ssd1306-esp-idf-esp32-i2c/build/partition_table/partition-table.bin C:/Users/luigi/Downloads/ssd1306-esp-idf-esp32-i2c/build/ssd1306_esp32.bin"
+ssd1306_esp32.bin binary size 0x31220 bytes. Smallest app partition is 0x100000 bytes. 0xcede0 bytes (81%) free.
