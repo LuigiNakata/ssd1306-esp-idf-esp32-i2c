@@ -201,7 +201,7 @@ void app_main(void)
 
         memcpy(&temperatura, &message.data[0], sizeof(float));
         memcpy(&umidade, &message.data[4], sizeof(float));
-        memcpy(&velocidade_vento, &message.data[4], sizeof(float));
+        memcpy(&velocidade_vento, &message.data[8], sizeof(float));
 
         ESP_LOGI(TAG1, "Temperatura = %.2f °C, Umidade = %.2f %%, Velocidade do vento = %.2f m/s",
          temperatura, umidade, velocidade_vento);
@@ -212,6 +212,6 @@ void app_main(void)
     } else {
         ESP_LOGE(TAG1, "Message reception failed: %s", esp_err_to_name(err));
     }
-}
+    }
 
 }
