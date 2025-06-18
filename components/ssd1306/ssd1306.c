@@ -96,7 +96,5 @@ void ssd1306_refresh_gram(void) {
 }
 
 void ssd1306_draw_string(uint8_t x, uint8_t y, const char* str, uint8_t size, uint8_t mode) {
-    // Aqui você pode implementar a função de desenhar string usando uma font bitmap.
-    // Para o exemplo, vamos só imprimir no console.
     printf("Draw string: %s at (%d,%d)\n", str, x, y);
 }

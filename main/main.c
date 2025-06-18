@@ -5,6 +5,8 @@
 #include "esp_log.h"
 #include "freertos/task.h"
 #include "sdkconfig.h"
+#include "driver/twai.h"
+#include "freertos/FreeRTOS.h"
 
 #include "ssd1306.h"
 #include "font8x8_basic.h"
@@ -23,6 +25,8 @@
 #define OLED_CMD_SET_COM_SCAN_MODE 0xC8
 #define OLED_CMD_DISPLAY_ON 0xAF
 #define OLED_CMD_SET_CONTRAST 0x81
+
+#define TAG1 "TWAI"
 
 static const char *TAG = "SSD1306";
 
@@ -51,8 +55,8 @@ void ssd1306_init() {
     i2c_master_write_byte(cmd, OLED_CMD_SET_CHARGE_PUMP, true);
     i2c_master_write_byte(cmd, 0x14, true);
 
-    i2c_master_write_byte(cmd, OLED_CMD_SET_SEGMENT_REMAP, true); // espelho horizontal
-    i2c_master_write_byte(cmd, OLED_CMD_SET_COM_SCAN_MODE, true); // espelho vertical
+    i2c_master_write_byte(cmd, OLED_CMD_SET_SEGMENT_REMAP, true); 
+    i2c_master_write_byte(cmd, OLED_CMD_SET_COM_SCAN_MODE, true); 
 
     i2c_master_write_byte(cmd, OLED_CMD_DISPLAY_ON, true);
     i2c_master_stop(cmd);
@@ -145,8 +149,69 @@ void app_main(void)
     i2c_master_init();
     ssd1306_init();
 
+    float temperatura = 0.0f;
+    float umidade = 0.0f;
+    float velocidade_vento = 0.0f;
+
+    char display_text[64];
+    snprintf(display_text, sizeof(display_text),
+         "Temp: %.2f C\nUmid: %.2f %%\nVel: %.2f m/s", temperatura, umidade, velocidade_vento);
+
     xTaskCreate(&task_ssd1306_display_clear, "ssd1306_clear", 2048, NULL, 6, NULL);
     vTaskDelay(100 / portTICK_PERIOD_MS);
 
-    xTaskCreate(&task_ssd1306_display_text, "ssd1306_text", 2048, (void *)"Hello world!\nMultiline OK!\nOutra linha", 6, NULL);
+    xTaskCreate(&task_ssd1306_display_text, 
+            "ssd1306_text", 2048, (void *)display_text, 6, NULL);
+
+      // Configure TWAI driver
+    twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(GPIO_NUM_21, GPIO_NUM_22, TWAI_MODE_NORMAL);
+    twai_timing_config_t t_config = TWAI_TIMING_CONFIG_500KBITS();  // Set to 200 kbps
+    twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();  // Accept all messages
+
+
+    // Install TWAI driver
+    esp_err_t err = twai_driver_install(&g_config, &t_config, &f_config);
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG1, "TWAI driver installed successfully");
+    } else {
+        ESP_LOGE(TAG1, "Failed to install TWAI driver: %s", esp_err_to_name(err));
+        return;
+    }
+
+
+    // Start TWAI driver
+    err = twai_start();
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG1, "TWAI driver started successfully");
+    } else {
+        ESP_LOGE(TAG1, "Failed to start TWAI driver: %s", esp_err_to_name(err));
+        return;
+    }
+
+
+    while (1) {
+    twai_message_t message;
+    esp_err_t err = twai_receive(&message, pdMS_TO_TICKS(1000));
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG1, "Message received: ID=0x%lu, Data=[%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X]",
+                    message.identifier,
+                    message.data[0], message.data[1], message.data[2], message.data[3],
+                    message.data[4], message.data[5], message.data[6], message.data[7],
+                    message.data[8], message.data[9], message.data[10], message.data[11]);
+
+        memcpy(&temperatura, &message.data[0], sizeof(float));
+        memcpy(&umidade, &message.data[4], sizeof(float));
+        memcpy(&velocidade_vento, &message.data[4], sizeof(float));
+
+        ESP_LOGI(TAG1, "Temperatura = %.2f °C, Umidade = %.2f %%, Velocidade do vento = %.2f m/s",
+         temperatura, umidade, velocidade_vento);
+
+
+    } else if (err == ESP_ERR_TIMEOUT) {
+        ESP_LOGW(TAG1, "Reception timed out");
+    } else {
+        ESP_LOGE(TAG1, "Message reception failed: %s", esp_err_to_name(err));
+    }
+}
+
 }
