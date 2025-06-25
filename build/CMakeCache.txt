@@ -14,12 +14,6 @@
 # EXTERNAL cache entries
 ########################
 
-//No help, variable specified on the command line.
-CCACHE_ENABLE:UNINITIALIZED=1
-
-//Path to a program.
-CCACHE_FOUND:FILEPATH=C:/Users/luigi/.espressif/tools/ccache/4.10.2/ccache-4.10.2-windows-x86_64/ccache.exe
-
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=C:/Users/luigi/.espressif/tools/xtensa-esp-elf/esp-14.2.0_20241119/xtensa-esp-elf/bin/xtensa-esp32-elf-addr2line.exe
 
@@ -160,7 +154,7 @@ CMAKE_INSTALL_MANDIR:PATH=
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/ssd1306_esp32
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/ssd1306-esp-idf-esp32-i2c
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
@@ -353,9 +347,6 @@ Mbed TLS_IS_TOP_LEVEL:STATIC=OFF
 Mbed TLS_SOURCE_DIR:STATIC=C:/Users/luigi/esp/v5.4.1/esp-idf/components/mbedtls/mbedtls
 
 //No help, variable specified on the command line.
-PYTHON:UNINITIALIZED=C:\Users\luigi\.espressif\python_env\idf5.4_py3.11_env\Scripts\python.exe
-
-//No help, variable specified on the command line.
 PYTHON_DEPS_CHECKED:UNINITIALIZED=1
 
 //No help, variable specified on the command line.
@@ -402,15 +393,6 @@ ssd1306-esp-idf-esp32-i2c_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 ssd1306-esp-idf-esp32-i2c_SOURCE_DIR:STATIC=C:/Users/luigi/Downloads/ssd1306-esp-idf-esp32-i2c
-
-//Value Computed by CMake
-ssd1306_esp32_BINARY_DIR:STATIC=C:/Users/luigi/Downloads/ssd1306-esp-idf-esp32-i2c/build
-
-//Value Computed by CMake
-ssd1306_esp32_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-ssd1306_esp32_SOURCE_DIR:STATIC=C:/Users/luigi/Downloads/ssd1306-esp-idf-esp32-i2c
 
 
 ########################
@@ -614,7 +596,7 @@ FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/ssd1306_esp32
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/ssd1306-esp-idf-esp32-i2c
 //Compiler reason failure
 _Python3_Compiler_REASON_FAILURE:INTERNAL=
 //Development reason failure
